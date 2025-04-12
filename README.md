@@ -18,12 +18,12 @@ This repository contains a simple web application that can be deployed to Kubern
 │   └── html/
 │       └── index.html
 ├── k8s/
-│   ├── backend.yaml
 │   ├── configmap.yaml
-│   ├── database.yaml
-│   ├── frontend.yaml
+│   ├── deployment.yaml
+│   ├── ingress.yaml
 │   ├── namespace.yaml
-│   └── service.yaml
+│   ├── service.yaml
+│   └── statefulset.yaml
 └── docker-compose.yml
 ```
 
