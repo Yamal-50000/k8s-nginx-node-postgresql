@@ -1,0 +1,4 @@
+apiVersion: v1
+kind: Namespace
+meatdata:
+  name: k8s-simple-web
