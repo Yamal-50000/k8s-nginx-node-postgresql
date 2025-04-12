@@ -2,13 +2,20 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: simple-web-ingress
-  namespace: simple-web
+  namespace: k8s-simple-web
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
   rules:
   - http:
       paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: frontend
+            port:
+              number: 80
       - path: /api
         pathType: Prefix
         backend:
