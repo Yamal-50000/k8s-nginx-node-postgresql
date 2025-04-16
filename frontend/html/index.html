@@ -2,34 +2,216 @@
 <html>
 <head>
     <title>Kubernetes Demo</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        :root {
+            --primary: #2563eb;
+            --secondary: #3b82f6;
+            --background: #f8fafc;
+            --card-bg: #ffffff;
+            --text: #1e293b;
+            --text-secondary: #64748b;
+            --border: #e2e8f0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
-            font-family: Arial, sans-serif;
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
+            font-family: 'Inter', sans-serif;
+            background-color: var(--background);
+            color: var(--text);
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
-        h1 {
-            color: #333;
-            text-align: center;
-        }
+
         .container {
-            border: 1px solid #ddd;
-            padding: 20px;
-            border-radius: 5px;
-            background-color: #f9f9f9;
+            max-width: 1400px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+            width: 90%;
         }
-        .card {
-            background: white;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            padding: 15px;
-            margin-bottom: 10px;
-        }
-        .footer {
+
+        h1 {
+            font-size: 2.75rem;
+            font-weight: 600;
+            color: var(--primary);
             text-align: center;
-            margin-top: 30px;
-            color: #777;
+            margin: 2.5rem 0;
+            position: relative;
+        }
+
+        h1::after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 4px;
+            background: var(--primary);
+            margin: 1.2rem auto;
+            border-radius: 2px;
+        }
+
+        .cards-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+                       0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            border: 1px solid var(--border);
+            min-height: 200px;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+                       0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        .card h2 {
+            color: var(--primary);
+            font-size: 1.4rem;
+            margin-bottom: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .card h2 i {
+            font-size: 1.2em;
+            color: var(--primary);
+        }
+
+        .card p {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            font-size: 1.05rem;
+        }
+
+        code {
+            background: var(--background);
+            padding: 0.5rem 0.8rem;
+            border-radius: 6px;
+            font-size: 0.95em;
+            color: var(--primary);
+            border: 1px solid var(--border);
+            word-break: break-all;
+            display: inline-block;
+            margin-top: 0.5rem;
+            width: 100%;
+        }
+
+        .api-response {
+            margin-top: 1.5rem;
+            padding: 1.2rem;
+            background: var(--background);
+            border-radius: 8px;
+            border: 1px solid var(--border);
+        }
+
+        a {
+            color: var(--primary);
+            text-decoration: none;
+            transition: color 0.2s ease;
+            font-weight: 500;
+        }
+
+        a:hover {
+            color: var(--secondary);
+            text-decoration: underline;
+        }
+
+        .footer {
+            margin-top: auto;
+            text-align: center;
+            padding: 2.5rem;
+            background: var(--card-bg);
+            border-top: 1px solid var(--border);
+        }
+
+        .footer p {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .status-indicator {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            background: #22c55e;
+            border-radius: 50%;
+            margin-right: 10px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(0.95);
+                box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7);
+            }
+            
+            70% {
+                transform: scale(1);
+                box-shadow: 0 0 0 10px rgba(34, 197, 94, 0);
+            }
+            
+            100% {
+                transform: scale(0.95);
+                box-shadow: 0 0 0 0 rgba(34, 197, 94, 0);
+            }
+        }
+
+        .architecture-flow {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 0.8rem;
+            font-size: 1.1rem;
+        }
+
+        .architecture-flow i {
+            color: var(--text-secondary);
+            font-size: 0.9em;
+        }
+
+        @media (max-width: 1200px) {
+            .cards-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                width: 95%;
+                padding: 0 1rem;
+            }
+            
+            .cards-container {
+                grid-template-columns: 1fr;
+            }
+            
+            h1 {
+                font-size: 2.2rem;
+            }
+
+            .card {
+                padding: 1.5rem;
+            }
         }
     </style>
 </head>
@@ -37,26 +219,37 @@
     <div class="container">
         <h1>Kubernetes Demo</h1>
         
-        <div class="card">
-            <h2>Frontend Container</h2>
-            <p>This is a simple Nginx container serving static content.</p>
-        </div>
-        
-        <div class="card">
-            <h2>Backend Container</h2>
-            <p>The backend is running a Node.js application on port 5000.</p>
-            <p>Try accessing the API at <a href="/api" id="api-link">API Endpoint</a></p>
-        </div>
-        
-        <div class="card">
-            <h2>Database Container</h2>
-            <p>PostgreSQL database is running.</p>
-            <p>Connection string: <code>postgres://postgres:example@db:5432/demo</code></p>
+        <div class="cards-container">
+            <div class="card">
+                <h2><i class="fas fa-desktop"></i> Frontend Container</h2>
+                <p><span class="status-indicator"></span>Nginx container serving static content</p>
+                <p>Status: Active</p>
+            </div>
+            
+            <div class="card">
+                <h2><i class="fas fa-server"></i> Backend Container</h2>
+                <p><span class="status-indicator"></span>Node.js application running on port 5000</p>
+                <p>Access the API at <a href="/api" id="api-link">API Endpoint</a></p>
+            </div>
+            
+            <div class="card">
+                <h2><i class="fas fa-database"></i> Database Container</h2>
+                <p><span class="status-indicator"></span>PostgreSQL database active</p>
+                <p>Connection string:</p>
+                <code>postgres://postgres:example@db:5432/demo</code>
+            </div>
         </div>
     </div>
     
     <div class="footer">
-        <p>Kubernetes Demo - Nginx ↔️ Node.js ↔️ PostgreSQL</p>
+        <p>Kubernetes Demo Architecture</p>
+        <div class="architecture-flow">
+            <span>Nginx</span>
+            <i class="fas fa-arrow-right-arrow-left"></i>
+            <span>Node.js</span>
+            <i class="fas fa-arrow-right-arrow-left"></i>
+            <span>PostgreSQL</span>
+        </div>
     </div>
     
     <script>
@@ -65,7 +258,12 @@
             .then(response => response.json())
             .then(data => {
                 const apiCard = document.querySelector('.card:nth-child(2)');
-                apiCard.innerHTML += `<div class="api-response"><strong>API Response:</strong> ${JSON.stringify(data)}</div>`;
+                apiCard.innerHTML += `
+                    <div class="api-response">
+                        <strong>API Response:</strong>
+                        <pre>${JSON.stringify(data, null, 2)}</pre>
+                    </div>
+                `;
             })
             .catch(error => {
                 console.error('Error fetching API:', error);
